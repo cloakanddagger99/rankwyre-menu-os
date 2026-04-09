@@ -4725,9 +4725,15 @@ export default function App() {
   const isSubdomain = !isVercelDomain && !isLocalhost && hostname.split('.').length > 2
   const restaurantSubdomain = isSubdomain ? hostname.split('.')[0] : null
 
-  // Show landing page during SSR to avoid hydration mismatch
   if (!isClient) {
-    return <LandingPage />
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-background">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary mx-auto mb-4"></div>
+          <p className="text-muted-foreground">Loading Rankwyre Menu OS...</p>
+        </div>
+      </div>
+    )
   }
 
   // If accessing via subdomain, show the menu view
