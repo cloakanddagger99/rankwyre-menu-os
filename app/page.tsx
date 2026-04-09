@@ -2,6 +2,7 @@
 
 import React from 'react'
 import { useState, useEffect } from 'react'
+import dynamic from 'next/dynamic'
 import { BrowserRouter } from 'react-router-dom'
 import { Route, Routes, Link, useNavigate, useLocation, useParams, Navigate } from 'react-router-dom'
 import { motion, AnimatePresence } from 'framer-motion'
@@ -4709,32 +4710,15 @@ function Dashboard() {
   )
 }
 
-export default function App() {
-  const [isClient, setIsClient] = useState(false)
-
-  useEffect(() => {
-    setIsClient(true)
-  }, [])
-
+function AppContent() {
   // Get the current hostname
-  const hostname = typeof window !== 'undefined' ? window.location.hostname : ''
+  const hostname = window.location.hostname
   // Check for client subdomain (e.g., joescoffee.menu.rankwyre.com)
   // Exclude vercel.app domains and localhost from subdomain detection
   const isVercelDomain = hostname.endsWith('.vercel.app')
   const isLocalhost = hostname === 'localhost' || hostname === '127.0.0.1'
   const isSubdomain = !isVercelDomain && !isLocalhost && hostname.split('.').length > 2
   const restaurantSubdomain = isSubdomain ? hostname.split('.')[0] : null
-
-  if (!isClient) {
-    return (
-      <div className="min-h-screen flex items-center justify-center bg-background">
-        <div className="text-center">
-          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary mx-auto mb-4"></div>
-          <p className="text-muted-foreground">Loading Rankwyre Menu OS...</p>
-        </div>
-      </div>
-    )
-  }
 
   // If accessing via subdomain, show the menu view
   if (isSubdomain) {
@@ -4777,4 +4761,22 @@ export default function App() {
       </AnimatePresence>
     </BrowserRouter>
   )
+}
+
+// Use dynamic import with ssr:false to completely skip server-side rendering
+// This is required because BrowserRouter needs a browser environment
+const DynamicApp = dynamic(() => Promise.resolve(AppContent), {
+  ssr: false,
+  loading: () => (
+    <div className="min-h-screen flex items-center justify-center bg-background">
+      <div className="text-center">
+        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary mx-auto mb-4"></div>
+        <p className="text-muted-foreground">Loading Rankwyre Menu OS...</p>
+      </div>
+    </div>
+  ),
+})
+
+export default function Page() {
+  return <DynamicApp />
 }
