@@ -4725,8 +4725,9 @@ export default function App() {
   const isSubdomain = !isVercelDomain && !isLocalhost && hostname.split('.').length > 2
   const restaurantSubdomain = isSubdomain ? hostname.split('.')[0] : null
 
+  // Show landing page during SSR to avoid hydration mismatch
   if (!isClient) {
-    return null
+    return <LandingPage />
   }
 
   // If accessing via subdomain, show the menu view
@@ -4734,21 +4735,21 @@ export default function App() {
     return (
       <BrowserRouter>
         <Routes>
-          <Route 
-            path="/:menuName" 
+          <Route
+            path="/:menuName"
             element={
-              <PublicMenuView 
-                restaurantSubdomain={restaurantSubdomain} 
+              <PublicMenuView
+                restaurantSubdomain={restaurantSubdomain}
               />
-            } 
+            }
           />
-          <Route 
-            path="/" 
+          <Route
+            path="/"
             element={
-              <PublicMenuView 
-                restaurantSubdomain={restaurantSubdomain} 
+              <PublicMenuView
+                restaurantSubdomain={restaurantSubdomain}
               />
-            } 
+            }
           />
         </Routes>
       </BrowserRouter>
