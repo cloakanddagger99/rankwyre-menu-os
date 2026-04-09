@@ -4718,7 +4718,11 @@ export default function App() {
 
   // Get the current hostname
   const hostname = typeof window !== 'undefined' ? window.location.hostname : ''
-  const isSubdomain = hostname.split('.').length > 2
+  // Check for client subdomain (e.g., joescoffee.menu.rankwyre.com)
+  // Exclude vercel.app domains and localhost from subdomain detection
+  const isVercelDomain = hostname.endsWith('.vercel.app')
+  const isLocalhost = hostname === 'localhost' || hostname === '127.0.0.1'
+  const isSubdomain = !isVercelDomain && !isLocalhost && hostname.split('.').length > 2
   const restaurantSubdomain = isSubdomain ? hostname.split('.')[0] : null
 
   if (!isClient) {
