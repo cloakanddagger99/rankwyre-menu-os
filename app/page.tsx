@@ -1219,7 +1219,7 @@ function LandingPage() {
                   </div>
                   <CardContent>
                     <Button className="w-full" asChild>
-                      <Link to="/signup">Start Free Trial</Link>
+                      <a href="https://buy.stripe.com/dRm6oGemhfEVc30egs3sI0b" target="_blank" rel="noopener noreferrer">Start Free Trial</a>
                     </Button>
                   </CardContent>
                 </Card>
@@ -1249,7 +1249,7 @@ function LandingPage() {
                   </div>
                   <CardContent>
                     <Button className="w-full" asChild>
-                      <Link to="/signup">Start Free Trial</Link>
+                      <a href="https://buy.stripe.com/3cIcN47XT1O5ffc2xK3sI0c" target="_blank" rel="noopener noreferrer">Start Free Trial</a>
                     </Button>
                   </CardContent>
                 </Card>
